@@ -12,11 +12,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 
-/**
- * This class implements java Socket server
- * @author pankaj
- *
- */
 public class SocketServerExample {
 
     //static ServerSocket variable
@@ -28,6 +23,7 @@ public class SocketServerExample {
         //create the socket server object
         server = new ServerSocket(port);
         Socket socket;
+        UserService userService = new UserService();
         //keep listens indefinitely until receives 'exit' call or program terminates
         while(true){
             System.out.println("\n\t\tWaiting for the client request");
@@ -45,7 +41,6 @@ public class SocketServerExample {
                 MyData md = objectMapper.readValue(message.toString(), MyData.class);
                 System.out.println("User: " + md.getUsr().getInfo());
                 if(md.isRegistr()){
-                    UserService userService = new UserService();
                     List<User> usList = userService.findAllUsers();
                     boolean isExists=false;
                     for (User us:usList ) {
@@ -67,7 +62,6 @@ public class SocketServerExample {
                     }
                 }
                 else{
-                    UserService userService = new UserService();
                     List<User> usList = userService.findAllUsers();
                     boolean autorise=false;
                     for (User us:usList) {
@@ -101,5 +95,4 @@ public class SocketServerExample {
         //close the ServerSocket object
         server.close();
     }
-
 }
